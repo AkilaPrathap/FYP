@@ -5,8 +5,8 @@ Final Year Project (2023 -2024)
 
 *tensorflow*
 
-python3 -m pip install tensorflow
+```python3 -m pip install tensorflow```
 
 *transformers*
 
-pip install transformers
+```pip install transformers```
