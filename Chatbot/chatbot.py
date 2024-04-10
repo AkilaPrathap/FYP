@@ -68,6 +68,6 @@ while True:
         print("Chatbot: Goodbye!")
         break
     context = "Car diagnostics context here..."  # Provide relevant car diagnostics information here
-    qa_csv_file = 'dataset.csv'  # Path to your CSV file containing question-answer pairs
+    qa_csv_file = 'D:\FYP\Chatbot\dataset.csv'  # Path to your CSV file containing question-answer pairs
     answer = answer_question(question, context, qa_csv_file)
     print("Chatbot:", answer)

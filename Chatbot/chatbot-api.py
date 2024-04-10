@@ -1,14 +1,18 @@
 from flask import Flask, request, jsonify
+from flask_cors import CORS  # Import CORS from flask_cors
 import csv
 from transformers import BertTokenizer, TFBertForQuestionAnswering
 import numpy as np
 from difflib import SequenceMatcher
 
+app = Flask(__name__)
+CORS(app)  # Apply CORS to your Flask app
+
 # Load pre-trained BERT model for question answering
-model = TFBertForQuestionAnswering.from_pretrained('bert-large-uncased-whole-word-masking-finetuned-squad')
+model = TFBertForQuestionAnswering.from_pretrained('bert-base-cased')
 
 # Load tokenizer
-tokenizer = BertTokenizer.from_pretrained('bert-large-uncased-whole-word-masking-finetuned-squad')
+tokenizer = BertTokenizer.from_pretrained('bert-base-cased')
 
 # Function to calculate similarity between two strings
 def similarity(a, b):
@@ -17,11 +21,13 @@ def similarity(a, b):
 # Function to read QA pairs from a CSV file
 def read_qa_pairs_from_csv(csv_file):
     qa_pairs = {}
-    with open(csv_file, mode='r') as file:
+    with open(csv_file, mode='r', newline='') as file:
         csv_reader = csv.reader(file)
         for row in csv_reader:
-            qa_pairs[row[0]] = row[1]
+            if len(row) >= 2:  # Check if the row has at least two elements (question and answer)
+                qa_pairs[row[0]] = row[1]
     return qa_pairs
+
 
 # Function to perform question answering
 def answer_question(question, context, qa_pairs):
@@ -38,7 +44,7 @@ def answer_question(question, context, qa_pairs):
             best_match = q
 
     # If a match with sufficient similarity is found, return the corresponding answer
-    if max_similarity >= 0.7:  # Adjust the threshold as needed
+    if max_similarity >= 0.5:  # Adjust the threshold as needed
         return qa_pairs[best_match]
     else:
         # Tokenize inputs
@@ -59,17 +65,18 @@ def answer_question(question, context, qa_pairs):
 
         return answer
 
-app = Flask(__name__)
-
 @app.route('/ask', methods=['POST'])
 def ask():
-    data = request.get_json()
-    question = data.get('question')
-    context = "Car diagnostics context here..."  # Provide relevant car diagnostics information here
-    qa_csv_file = 'dataset.csv'
-    qa_pairs = read_qa_pairs_from_csv(qa_csv_file)
-    answer = answer_question(question, context, qa_pairs)
-    return jsonify({'answer': answer})
+    if request.method == 'POST':
+        data = request.get_json()
+        question = data.get('question')
+        context = "Car diagnostics context here..."  # Provide relevant car diagnostics information here
+        qa_csv_file = 'dataset.csv'
+        qa_pairs = read_qa_pairs_from_csv(qa_csv_file)
+        answer = answer_question(question, context, qa_pairs)
+        return jsonify({'answer': answer})
+    else:
+        return jsonify({'error': 'Method not allowed'}), 405
 
 if __name__ == '__main__':
     app.run(port=5000)
