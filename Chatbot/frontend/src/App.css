@@ -1,0 +1,76 @@
+.chat-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  justify-content: flex-end;
+  padding: 20px;
+  background-color: #f9f9f9; /* Light background color */
+}
+
+.chat-messages {
+  overflow-y: auto;
+  max-height: calc(100vh - 120px);
+  margin-bottom: 20px; /* Add some margin at the bottom */
+}
+
+.message {
+  padding: 10px 15px; /* Slightly reduce padding */
+  margin-bottom: 10px; /* Reduce margin */
+  border-radius: 15px; /* Rounded corners */
+  max-width: 80%;
+  word-wrap: break-word; /* Wrap long messages */
+}
+
+.bot-message {
+  background-color: #e1f5fe;
+  color: #333; /* Dark text color for better contrast */
+  align-self: flex-start;
+}
+
+.user-message {
+  background-color: #4caf50;
+  color: #fff; /* White text color for contrast */
+  align-self: flex-end;
+}
+
+.input-container {
+  display: flex;
+  align-items: center;
+  margin-top: 20px;
+}
+
+input {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 25px; /* Rounded input */
+  margin-right: 10px;
+  outline: none; /* Remove input outline */
+}
+
+button {
+  padding: 10px 20px;
+  background-color: #2196f3; /* Blue button */
+  color: #fff;
+  border: none;
+  border-radius: 25px; /* Rounded button */
+  cursor: pointer;
+  transition: background-color 0.3s ease; /* Smooth hover effect */
+}
+
+button:hover {
+  background-color: #1976d2; /* Darker blue on hover */
+}
+
+::-webkit-scrollbar {
+  width: 8px; /* Scrollbar width */
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.2); /* Light scrollbar thumb color */
+  border-radius: 4px; /* Rounded thumb */
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(0, 0, 0, 0.3); /* Darker thumb color on hover */
+}

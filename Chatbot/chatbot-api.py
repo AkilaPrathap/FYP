@@ -71,7 +71,7 @@ def ask():
         data = request.get_json()
         question = data.get('question')
         context = "Car diagnostics context here..."  # Provide relevant car diagnostics information here
-        qa_csv_file = 'dataset.csv'
+        qa_csv_file = 'D:\FYP\Chatbot\dataset.csv'
         qa_pairs = read_qa_pairs_from_csv(qa_csv_file)
         answer = answer_question(question, context, qa_pairs)
         return jsonify({'answer': answer})
